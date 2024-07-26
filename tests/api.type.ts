@@ -1,4 +1,5 @@
 export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -9,196 +10,201 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** The `Upload` scalar type represents a file upload. */
-  Upload: any;
 };
 
 export type Address = {
   __typename?: 'Address';
-  city: Scalars['String'];
-  geo: Geo;
-  street: Scalars['String'];
-  suite: Scalars['String'];
-  zipcode: Scalars['String'];
+  city?: Maybe<Scalars['String']>;
+  geo?: Maybe<Geo>;
+  street?: Maybe<Scalars['String']>;
+  suite?: Maybe<Scalars['String']>;
+  zipcode?: Maybe<Scalars['String']>;
 };
 
-export enum CacheControlScope {
-  Private = 'PRIVATE',
-  Public = 'PUBLIC'
-}
+export type Album = {
+  __typename?: 'Album';
+  id: Scalars['Int'];
+  photos?: Maybe<Array<Maybe<Photo>>>;
+  title?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+};
+
+
+export type AlbumPhotosArgs = {
+  first?: InputMaybe<Scalars['Int']>;
+};
 
 export type Comment = {
   __typename?: 'Comment';
-  author: User;
-  body: Scalars['String'];
-  id: Scalars['ID'];
-  post: Post;
-};
-
-export type CommentInput = {
-  body: Scalars['String'];
-  postId: Scalars['Int'];
-  userId: Scalars['Int'];
-};
-
-export type CommentUpdateInput = {
   body?: Maybe<Scalars['String']>;
-};
-
-export type CommentWithPagination = {
-  __typename?: 'CommentWithPagination';
-  count: Scalars['Int'];
-  currentPage: Scalars['Int'];
-  data?: Maybe<Array<Comment>>;
-  totalPages: Scalars['Int'];
+  email?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name?: Maybe<Scalars['String']>;
+  post?: Maybe<Post>;
 };
 
 export type Company = {
   __typename?: 'Company';
-  bs: Scalars['String'];
-  catchPhrase: Scalars['String'];
-  name: Scalars['String'];
+  bs?: Maybe<Scalars['String']>;
+  catchPhrase?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type CreatePostInput = {
+  body: Scalars['String'];
+  title: Scalars['String'];
+  userId: Scalars['Int'];
 };
 
 export type Geo = {
   __typename?: 'Geo';
-  lat: Scalars['Float'];
-  lng: Scalars['Float'];
+  lat?: Maybe<Scalars['String']>;
+  lng?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addComment: Comment;
-  addPost: Post;
-  deleteComment: Comment;
-  deletePost: Post;
-  updateComment: Comment;
-  updatePost: Post;
+  createPost?: Maybe<Post>;
+  deletePost?: Maybe<Scalars['String']>;
+  updatePost?: Maybe<Post>;
 };
 
 
-export type MutationAddCommentArgs = {
-  data: CommentInput;
-};
-
-
-export type MutationAddPostArgs = {
-  data: PostInput;
-};
-
-
-export type MutationDeleteCommentArgs = {
-  commentId: Scalars['ID'];
+export type MutationCreatePostArgs = {
+  post: CreatePostInput;
 };
 
 
 export type MutationDeletePostArgs = {
-  postId: Scalars['ID'];
-};
-
-
-export type MutationUpdateCommentArgs = {
-  commentId: Scalars['ID'];
-  data: CommentUpdateInput;
+  postId: Scalars['Int'];
 };
 
 
 export type MutationUpdatePostArgs = {
-  data: PostUpdateInput;
-  postId: Scalars['ID'];
+  post: UpdatePostInput;
+  postId: Scalars['Int'];
 };
 
-export type PaginationInput = {
-  limit?: Maybe<Scalars['Int']>;
-  page?: Maybe<Scalars['Int']>;
+export type Photo = {
+  __typename?: 'Photo';
+  album?: Maybe<Album>;
+  id: Scalars['Int'];
+  thumbnailUrl?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export type Post = {
   __typename?: 'Post';
-  author: User;
-  body: Scalars['String'];
-  comments: Array<Comment>;
-  id: Scalars['ID'];
-  title: Scalars['String'];
-};
-
-export type PostInput = {
-  body: Scalars['String'];
-  title: Scalars['String'];
-  userId: Scalars['Int'];
-};
-
-export type PostUpdateInput = {
   body?: Maybe<Scalars['String']>;
+  comments?: Maybe<Array<Maybe<Comment>>>;
+  id: Scalars['Int'];
   title?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['Int']>;
+  user?: Maybe<User>;
 };
 
-export type PostWithPagination = {
-  __typename?: 'PostWithPagination';
-  count: Scalars['Int'];
-  currentPage: Scalars['Int'];
-  data?: Maybe<Array<Post>>;
-  totalPages: Scalars['Int'];
+
+export type PostCommentsArgs = {
+  first?: InputMaybe<Scalars['Int']>;
 };
 
 export type Query = {
   __typename?: 'Query';
-  comment: Comment;
-  comments: CommentWithPagination;
-  post: Post;
-  posts: PostWithPagination;
-  user: User;
-  users: UserWithPagination;
+  albums?: Maybe<Array<Maybe<Album>>>;
+  comments?: Maybe<Array<Maybe<Comment>>>;
+  photos?: Maybe<Array<Maybe<Photo>>>;
+  posts?: Maybe<Array<Maybe<Post>>>;
+  todos?: Maybe<Array<Maybe<Todo>>>;
+  userById?: Maybe<User>;
+  users?: Maybe<Array<Maybe<User>>>;
 };
 
 
-export type QueryCommentArgs = {
-  commentId: Scalars['ID'];
+export type QueryAlbumsArgs = {
+  albumId?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  userId?: InputMaybe<Scalars['Int']>;
 };
 
 
 export type QueryCommentsArgs = {
-  pagination?: Maybe<PaginationInput>;
+  commentId?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  postId?: InputMaybe<Scalars['Int']>;
 };
 
 
-export type QueryPostArgs = {
-  postId: Scalars['ID'];
+export type QueryPhotosArgs = {
+  albumId?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  photoId?: InputMaybe<Scalars['Int']>;
 };
 
 
 export type QueryPostsArgs = {
-  pagination?: Maybe<PaginationInput>;
+  first?: InputMaybe<Scalars['Int']>;
+  postId?: InputMaybe<Scalars['Int']>;
+  userId?: InputMaybe<Scalars['Int']>;
 };
 
 
-export type QueryUserArgs = {
-  userId: Scalars['Int'];
+export type QueryTodosArgs = {
+  first?: InputMaybe<Scalars['Int']>;
+  todoId?: InputMaybe<Scalars['Int']>;
+  userId?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QueryUserByIdArgs = {
+  id: Scalars['Int'];
 };
 
 
 export type QueryUsersArgs = {
-  pagination?: Maybe<PaginationInput>;
+  first?: InputMaybe<Scalars['Int']>;
+  userId?: InputMaybe<Scalars['Int']>;
+};
+
+export type Todo = {
+  __typename?: 'Todo';
+  completed?: Maybe<Scalars['Boolean']>;
+  id: Scalars['Int'];
+  title?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+};
+
+export type UpdatePostInput = {
+  body?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['Int']>;
 };
 
 export type User = {
   __typename?: 'User';
   address?: Maybe<Address>;
-  company: Company;
-  email: Scalars['String'];
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  phone: Scalars['String'];
-  posts: Array<Post>;
-  username: Scalars['String'];
-  website: Scalars['String'];
+  albums?: Maybe<Array<Maybe<Album>>>;
+  company?: Maybe<Company>;
+  email?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  posts?: Maybe<Array<Maybe<Post>>>;
+  todos?: Maybe<Array<Maybe<Todo>>>;
+  username?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
 };
 
-export type UserWithPagination = {
-  __typename?: 'UserWithPagination';
-  count: Scalars['Int'];
-  currentPage: Scalars['Int'];
-  data?: Maybe<Array<User>>;
-  totalPages: Scalars['Int'];
+
+export type UserAlbumsArgs = {
+  first?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type UserPostsArgs = {
+  first?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type UserTodosArgs = {
+  first?: InputMaybe<Scalars['Int']>;
 };

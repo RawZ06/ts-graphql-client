@@ -5,8 +5,8 @@
   "types": "dist/src/index.d.ts",
   "license": "MIT",
   "description": "Typed client GraphQL using Apollo",
-  "author": "Alexandre Longordo <alexandre.longordo@etu.unice.fr>",
-  "repository": "AlexandreLon/ts-graphql-client",
+  "author": "RawZ06",
+  "repository": "RawZ06/ts-graphql-client",
   "keywords": [
     "graphql",
     "client",
@@ -20,7 +20,7 @@
     "ts"
   ],
   "engines": {
-    "node": ">= 14.0.0"
+    "node": ">= 18.0.0"
   },
   "scripts": {
     "deploy": "tsc && npm publish",

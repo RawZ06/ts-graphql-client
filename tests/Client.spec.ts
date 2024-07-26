@@ -1,80 +1,56 @@
 import { GraphQLClient } from '../src/GraphQLClient';
 import fetch from 'cross-fetch';
-import { MutationAddPostArgs, MutationUpdatePostArgs, Post, QueryUserArgs, QueryUsersArgs, User, UserWithPagination } from './api.type';
+import { MutationCreatePostArgs, MutationUpdatePostArgs, Post, QueryUserByIdArgs, QueryUsersArgs, User } from './api.type';
 
 let client: GraphQLClient;
 
 describe('Queries to GraphQLPlaceholder', () => {
     beforeAll(() => {
         client = new GraphQLClient({
-            uri: `https://api.graphqlplaceholder.com/`,
+            uri: `https://graphqlplaceholder.vercel.app/graphql`,
             fetch: fetch as any,
         });
     });
 
     test('Get number of users', async () => {
         const count = await client
-            .query<UserWithPagination, QueryUsersArgs>(
+            .query<User[], QueryUsersArgs>(
                 'users',
                 {},
                 {
-                    count: true,
+                    id: true,
                 },
             )
-            .then((res) => res.toJSON().count);
-
-        expect(count).toBe(10);
-    });
-
-    test('Get list of users', async () => {
-        const count = await client
-            .query<UserWithPagination, QueryUsersArgs>(
-                'users',
-                {},
-                {
-                    data: {
-                        id: true,
-                        name: true,
-                        username: true,
-                        email: true,
-                    },
-                },
-            )
-            .then((res) => res.toJSON().data?.length);
+            .then((res) => res.toJSON().length);
 
         expect(count).toBe(10);
     });
 
     test('Get list of users with pagination', async () => {
         const count = await client
-            .query<UserWithPagination, QueryUsersArgs>(
+            .query<User[], QueryUsersArgs>(
                 'users',
                 {
-                    pagination: {
-                        page: 1,
-                        limit: 5,
-                    },
+                    first: 5,
                 },
                 {
-                    data: {
-                        id: true,
-                        name: true,
-                        username: true,
-                        email: true,
-                    },
+                    id: true,
+                    name: true,
+                    username: true,
+                    email: true,
                 },
             )
-            .then((res) => res.toJSON().data?.length);
+            .then((res) => res.toJSON().length);
 
         expect(count).toBe(5);
     });
 
     test('Get user 1', async () => {
         const user = await client
-            .query<User, QueryUserArgs>(
-                'user',
+            .query<User, QueryUserByIdArgs>(
+                'userById',
                 {
-                    userId: 1,
+                    id: 1,
                 },
                 {
                     id: true,
@@ -85,15 +61,15 @@ describe('Queries to GraphQLPlaceholder', () => {
             )
             .then((res) => res.toJSON());
 
-        expect(user.id).toBe('1');
+        expect(user.id).toBe(1);
     });
 
     test('Create post', async () => {
         const post = await client
-            .mutate<Post, MutationAddPostArgs>(
-                'addPost',
+            .mutate<Post, MutationCreatePostArgs>(
+                'createPost',
                 {
-                    data: {
+                    post: {
                         userId: 1,
                         title: 'Hello',
                         body: 'Hello World',
@@ -107,7 +83,7 @@ describe('Queries to GraphQLPlaceholder', () => {
             )
             .then((res) => res.toJSON());
 
-        expect(post.id).toBe('101');
+        expect(post.id).toBe(101);
     });
 
     test('Update post', async () => {
@@ -115,8 +91,8 @@ describe('Queries to GraphQLPlaceholder', () => {
             .mutate<Post, MutationUpdatePostArgs>(
                 'updatePost',
                 {
-                    postId: '100',
-                    data: {
+                    postId: 100,
+                    post: {
                         userId: 1,
                         title: 'Hello',
                         body: 'Hello World',
@@ -130,6 +106,6 @@ describe('Queries to GraphQLPlaceholder', () => {
             )
             .then((res) => res.toJSON());
 
-        expect(post.id).toBe('100');
+        expect(post.id).toBe(100);
     });
 });

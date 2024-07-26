@@ -1,4 +1,4 @@
-schema: https://api.graphqlplaceholder.com/
+schema: https://graphqlplaceholder.vercel.app/graphql
 generates:
   ./tests/api.type.ts:
     plugins:

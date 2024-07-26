@@ -35,24 +35,22 @@ type User = {
   phone: string;
 }
 
-const client = new GraphQLClient('https://api.graphqlplaceholder.com/')
+const client = new GraphQLClient('https://graphqlplaceholder.vercel.app/graphql')
 
 async function main() {
     const users = await client
-        .query<{ data: User[] }, {}>(
+        .query<User[], {}>(
             'users',
             {},
             {
-                data: {
-                    id: true,
-                    name: true,
-                    username: true,
-                    email: true,
-                    phone: true,
-                },
+                id: true,
+                name: true,
+                username: true,
+                email: true,
+                phone: undefined,
             }
         )
-        .then((res) => res.toJSON().data)
+        .then((res) => res.toJSON())
     console.log(users)
 }
 
@@ -109,6 +107,6 @@ To generate types, we suggest to install [graphql-code-generator](https://www.gr
 
 ## License
 
-Property of [traveljuice](https://traveljuice.fr)
+By RawZ06
 
 [MIT](LICENSE)
