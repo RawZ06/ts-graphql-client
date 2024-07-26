@@ -24,6 +24,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org/'
       - run: npm install -g pnpm
       - run: pnpm install
+      - run: pnpm test
       - run: pnpm build
       - name: Increment version and publish
         if: github.ref == 'refs/heads/master'
